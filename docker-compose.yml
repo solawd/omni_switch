@@ -63,11 +63,8 @@ services:
       bash -c "
       apt-get update && apt-get install -y curl xz-utils &&
       curl --proto '=https' --tlsv1.2 -LsSf https://github.com/diesel-rs/diesel/releases/download/v2.3.5/diesel_cli-installer.sh | bash &&
-      if ! command -v just >/dev/null 2>&1; then
-        curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin
-      fi &&
       export PATH="$${PATH}:$${HOME}/.cargo/bin" &&
-      just migrate"
+      diesel migration --database-url "$${DATABASE_URL}" run --migration-dir /app/migrations --config-file /app/docker/diesel_migration.toml"
     working_dir: /app
     networks:
       - router_net

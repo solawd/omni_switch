@@ -1,0 +1,12 @@
+# Minimal diesel CLI config used by the one-click Docker setup's migration
+# runner.
+#
+# `diesel migration run` regenerates `crates/diesel_models/src/schema.rs`
+# (and applies `crates/diesel_models/drop_id.patch`) whenever
+# `[print_schema].file` is configured. That step requires `rustfmt` (absent
+# from the slim Debian image) and writes back into the mounted source tree, so
+# it is intentionally left out here: the migration runner only needs to migrate
+# the database.
+#
+# Schema consistency is verified separately in CI via
+# `just migrate run --locked-schema`.
