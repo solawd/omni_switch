@@ -260,6 +260,32 @@ jobs:
             kubectl -n omni-switch logs -l app=router -c router --previous --tail=100 || true
             exit 1
           fi
+          envsubst '${DOMAIN}' < k8s/dashboard.toml.tmpl > /tmp/dashboard.toml
+          kubectl -n omni-switch create configmap control-center-config \
+            --from-file=dashboard.toml=/tmp/dashboard.toml \
+            --from-file=dashboard_theme.json=config/dashboard_theme.json \
+            --dry-run=client -o yaml | kubectl apply -f -
+          envsubst '${DOMAIN}' < k8s/control-center.yaml.tmpl > /tmp/control-center.yaml
+          kubectl apply -f /tmp/control-center.yaml
+          if ! kubectl -n omni-switch rollout status deployment/control-center --timeout=3m; then
+            echo "=== control-center rollout failed ==="
+            kubectl -n omni-switch describe deploy/control-center
+            kubectl -n omni-switch logs -l app=control-center --tail=100 || true
+            exit 1
+          fi
+
+          kubectl -n omni-switch create configmap seed-user-script \
+            --from-file=create_default_user.sh=scripts/create_default_user.sh \
+            --dry-run=client -o yaml | kubectl apply -f -
+          kubectl -n omni-switch delete job seed-user --ignore-not-found
+          envsubst '${DOMAIN}' < k8s/seed-user.yaml.tmpl > /tmp/seed-user.yaml
+          kubectl apply -f /tmp/seed-user.yaml
+          if ! kubectl -n omni-switch wait --for=condition=complete job/seed-user --timeout=2m; then
+            echo "seed-user did not complete (router signup may have failed; you can still register in the UI)"
+            kubectl -n omni-switch logs job/seed-user --tail=80 || true
+          fi
+
           kubectl -n omni-switch get pods,svc,ingress
-          echo "https://switch.${DOMAIN}"
           echo "https://switch.${DOMAIN}/health"
+          echo "https://switch-admin.${DOMAIN}"
+          echo "login: demo@hyperswitch.com / Hyperswitch@123"

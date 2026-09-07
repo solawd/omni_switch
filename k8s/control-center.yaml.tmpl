@@ -1,0 +1,100 @@
+# Applied by .github/workflows/ghcr-k3s.yml
+# Placeholders: ${DOMAIN}
+# Official multi-arch image (linux/amd64 + linux/arm64). Do not use docker.juspay.io latest.
+# Host: switch-admin.${DOMAIN} — browser calls https://switch.${DOMAIN} (see dashboard.toml).
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: control-center
+  namespace: omni-switch
+  labels:
+    app: control-center
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: control-center
+  template:
+    metadata:
+      labels:
+        app: control-center
+    spec:
+      enableServiceLinks: false
+      containers:
+        - name: control-center
+          image: docker.io/juspaydotin/hyperswitch-control-center:2026.09.04.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9000
+          env:
+            - name: configPath
+              value: /tmp/dashboard-config.toml
+            - name: themeConfigPath
+              value: /tmp/dashboard-theme.json
+          volumeMounts:
+            - name: config
+              mountPath: /tmp/dashboard-config.toml
+              subPath: dashboard.toml
+            - name: config
+              mountPath: /tmp/dashboard-theme.json
+              subPath: dashboard_theme.json
+          startupProbe:
+            httpGet:
+              path: /
+              port: 9000
+            failureThreshold: 18
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 9000
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 25m
+              memory: 64Mi
+            limits:
+              memory: 192Mi
+      volumes:
+        - name: config
+          configMap:
+            name: control-center-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: control-center
+  namespace: omni-switch
+spec:
+  selector:
+    app: control-center
+  ports:
+    - name: http
+      port: 9000
+      targetPort: 9000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: control-center
+  namespace: omni-switch
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls.certresolver: letsencrypt
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - switch-admin.${DOMAIN}
+  rules:
+    - host: switch-admin.${DOMAIN}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: control-center
+                port:
+                  number: 9000

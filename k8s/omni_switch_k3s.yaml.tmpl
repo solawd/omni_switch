@@ -96,7 +96,9 @@ spec:
             - name: ROUTER__API_KEYS__HASH_KEY
               value: $(API_HASH_KEY)
             - name: ROUTER__USER__BASE_URL
-              value: https://switch.${DOMAIN}
+              value: https://switch-admin.${DOMAIN}
+            - name: ROUTER__MULTITENANCY__TENANTS__PUBLIC__USER__CONTROL_CENTER_URL
+              value: https://switch-admin.${DOMAIN}
           startupProbe:
             httpGet:
               path: /health

@@ -1,0 +1,42 @@
+# Runs after the router is Ready. Creates demo@hyperswitch.com / Hyperswitch@123
+# Placeholders: ${DOMAIN}
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: seed-user
+  namespace: omni-switch
+spec:
+  backoffLimit: 8
+  ttlSecondsAfterFinished: 86400
+  template:
+    spec:
+      restartPolicy: OnFailure
+      enableServiceLinks: false
+      containers:
+        - name: seed
+          image: alpine:3.20
+          imagePullPolicy: IfNotPresent
+          command:
+            - sh
+            - -c
+            - apk add --no-cache bash curl >/dev/null && bash /scripts/create_default_user.sh
+          env:
+            - name: HYPERSWITCH_SERVER_URL
+              value: http://router:8080
+            - name: HYPERSWITCH_CONTROL_CENTER_URL
+              value: https://switch-admin.${DOMAIN}
+          volumeMounts:
+            - name: script
+              mountPath: /scripts
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              memory: 64Mi
+      volumes:
+        - name: script
+          configMap:
+            name: seed-user-script
+            defaultMode: 0755
