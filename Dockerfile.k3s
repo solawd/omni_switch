@@ -1,0 +1,74 @@
+# syntax=docker/dockerfile:1
+# Multi-arch (linux/amd64 + linux/arm64). k3s node is aarch64.
+# Phase 1: router only. release-fast (no LTO) so ARM CI can finish.
+# Diesel CLI is in the image so an initContainer can run v1 migrations.
+
+FROM rust:bookworm AS builder
+
+ARG CARGO_BUILD_PROFILE=release-fast
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        libpq-dev libssl-dev pkg-config protobuf-compiler clang \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /router
+
+ENV CARGO_INCREMENTAL=0 \
+    CARGO_NET_RETRY=10 \
+    RUSTUP_MAX_RETRIES=10 \
+    RUST_BACKTRACE=short
+
+COPY . .
+RUN cargo build --profile ${CARGO_BUILD_PROFILE} -p router --bin router \
+    && mkdir -p /router/out \
+    && cp "/router/target/${CARGO_BUILD_PROFILE}/router" /router/out/router
+
+FROM debian:bookworm-slim AS runtime
+
+ARG CONFIG_DIR=/local/config
+ARG BIN_DIR=/local/bin
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        ca-certificates tzdata libpq5 curl procps xz-utils \
+    && curl --proto '=https' --tlsv1.2 -LsSf \
+        https://github.com/diesel-rs/diesel/releases/download/v2.3.5/diesel_cli-installer.sh | bash \
+    && if [ -x /root/.cargo/bin/diesel ]; then install -m 0755 /root/.cargo/bin/diesel /usr/local/bin/diesel; fi \
+    && command -v diesel \
+    && diesel --version \
+    && apt-get purge -y xz-utils \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && useradd --user-group --system --no-create-home --no-log-init app \
+    && mkdir -p ${BIN_DIR} ${CONFIG_DIR} /local/migrations
+
+COPY --from=builder /router/out/router ${BIN_DIR}/router
+COPY --from=builder /router/config ${CONFIG_DIR}
+COPY diesel.toml /local/diesel.toml
+COPY migrations /local/migrations
+
+RUN chown -R app:app /local
+
+ENV TZ=Etc/UTC \
+    CONFIG_DIR=${CONFIG_DIR} \
+    RUST_MIN_STACK=6291456 \
+    ROUTER__SERVER__HOST=0.0.0.0 \
+    ROUTER__SERVER__WORKERS=2 \
+    ROUTER__MASTER_DATABASE__HOST=postgres \
+    ROUTER__REPLICA_DATABASE__HOST=postgres \
+    ROUTER__ACCOUNTS_DATABASE__HOST=postgres \
+    ROUTER__GLOBAL_DATABASE__HOST=postgres \
+    ROUTER__ANALYTICS__SQLX__HOST=postgres \
+    ROUTER__REDIS__HOST=redis \
+    ROUTER__LOG__CONSOLE__LEVEL=INFO \
+    ROUTER__LOG__TELEMETRY__METRICS_ENABLED=false \
+    ROUTER__LOG__TELEMETRY__TRACES_ENABLED=false \
+    ROUTER__LOG__TELEMETRY__IGNORE_ERRORS=true \
+    ROUTER__SUPERPOSITION__BACKUP_FILE_PATH=/local/config/superposition_seed.toml
+
+EXPOSE 8080
+USER app:app
+WORKDIR ${BIN_DIR}
+
+CMD ["/local/bin/router", "-f", "/local/config/docker_compose.toml"]

@@ -1,0 +1,161 @@
+# Applied by .github/workflows/ghcr-k3s.yml
+# Placeholders: ${IMAGE} ${DOMAIN}
+# Host: switch.${DOMAIN} — apex @ / www stay on Vercel. Not through KrakenD.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: router
+  namespace: omni-switch
+  labels:
+    app: router
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: router
+  template:
+    metadata:
+      labels:
+        app: router
+    spec:
+      enableServiceLinks: false
+      imagePullSecrets:
+        - name: ghcr-pull-omni-switch
+      initContainers:
+        - name: wait-deps
+          image: busybox:1.36
+          command: ["sh", "-c", "until nc -z postgres 5432 && nc -z redis 6379; do sleep 2; done"]
+        - name: migrate
+          image: ${IMAGE}
+          imagePullPolicy: IfNotPresent
+          command:
+            - diesel
+            - migration
+            - run
+            - --migration-dir
+            - /local/migrations
+            - --config-file
+            - /local/diesel.toml
+          envFrom:
+            - secretRef:
+                name: omni-switch-secrets
+          env:
+            - name: DATABASE_URL
+              value: postgres://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@postgres:5432/$(POSTGRES_DB)
+      containers:
+        - name: router
+          image: ${IMAGE}
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - secretRef:
+                name: omni-switch-secrets
+          env:
+            - name: DATABASE_URL
+              value: postgres://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@postgres:5432/$(POSTGRES_DB)
+            - name: ROUTER__MASTER_DATABASE__USERNAME
+              value: $(POSTGRES_USER)
+            - name: ROUTER__MASTER_DATABASE__PASSWORD
+              value: $(POSTGRES_PASSWORD)
+            - name: ROUTER__MASTER_DATABASE__DBNAME
+              value: $(POSTGRES_DB)
+            - name: ROUTER__REPLICA_DATABASE__USERNAME
+              value: $(POSTGRES_USER)
+            - name: ROUTER__REPLICA_DATABASE__PASSWORD
+              value: $(POSTGRES_PASSWORD)
+            - name: ROUTER__REPLICA_DATABASE__DBNAME
+              value: $(POSTGRES_DB)
+            - name: ROUTER__ACCOUNTS_DATABASE__USERNAME
+              value: $(POSTGRES_USER)
+            - name: ROUTER__ACCOUNTS_DATABASE__PASSWORD
+              value: $(POSTGRES_PASSWORD)
+            - name: ROUTER__ACCOUNTS_DATABASE__DBNAME
+              value: $(POSTGRES_DB)
+            - name: ROUTER__GLOBAL_DATABASE__USERNAME
+              value: $(POSTGRES_USER)
+            - name: ROUTER__GLOBAL_DATABASE__PASSWORD
+              value: $(POSTGRES_PASSWORD)
+            - name: ROUTER__GLOBAL_DATABASE__DBNAME
+              value: $(POSTGRES_DB)
+            - name: ROUTER__ANALYTICS__SQLX__USERNAME
+              value: $(POSTGRES_USER)
+            - name: ROUTER__ANALYTICS__SQLX__PASSWORD
+              value: $(POSTGRES_PASSWORD)
+            - name: ROUTER__ANALYTICS__SQLX__DBNAME
+              value: $(POSTGRES_DB)
+            - name: ROUTER__SECRETS__ADMIN_API_KEY
+              value: $(ADMIN_API_KEY)
+            - name: ROUTER__SECRETS__JWT_SECRET
+              value: $(JWT_SECRET)
+            - name: ROUTER__SECRETS__MASTER_ENC_KEY
+              value: $(MASTER_ENC_KEY)
+            - name: ROUTER__API_KEYS__HASH_KEY
+              value: $(API_HASH_KEY)
+            - name: ROUTER__USER__BASE_URL
+              value: https://switch.${DOMAIN}
+          startupProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            failureThreshold: 48
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            periodSeconds: 20
+            timeoutSeconds: 5
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              memory: 768Mi
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: router
+  namespace: omni-switch
+spec:
+  selector:
+    app: router
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: router
+  namespace: omni-switch
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls.certresolver: letsencrypt
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - switch.${DOMAIN}
+  rules:
+    - host: switch.${DOMAIN}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: router
+                port:
+                  number: 8080

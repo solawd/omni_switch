@@ -257,6 +257,18 @@ loadtest/*.tmp/
 # Nix output
 result*
 
+# k3s image context — keep crates, config, migrations, diesel.toml
+.git
+.github
+docs/
+cypress-tests/
+cypress-tests-v2/
+api-reference/
+loadtest/
+k8s/
+aws/
+*.md
+
 .idea/
 
 # node_modules

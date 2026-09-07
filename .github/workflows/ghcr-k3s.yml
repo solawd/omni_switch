@@ -1,0 +1,265 @@
+name: GHCR and k3s
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  # Native amd64 + native arm64, then one multi-arch tag.
+  # A single-arch image caused: "no match for platform in manifest".
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: linux/amd64
+            runner: ubuntu-latest
+            suffix: amd64
+          - platform: linux/arm64
+            runner: ubuntu-24.04-arm
+            suffix: arm64
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 180
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Image names
+        id: image
+        run: |
+          name="ghcr.io/$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')"
+          echo "name=$name" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push by digest
+        id: push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: Dockerfile.k3s
+          platforms: ${{ matrix.platform }}
+          provenance: false
+          sbom: false
+          outputs: type=image,name=${{ steps.image.outputs.name }},push-by-digest=true,name-canonical=true,push=true
+          cache-from: type=gha,scope=k3s-${{ matrix.suffix }}
+          cache-to: type=gha,mode=max,scope=k3s-${{ matrix.suffix }}
+
+      - name: Export digest
+        run: |
+          mkdir -p "${{ runner.temp }}/digests"
+          digest="${{ steps.push.outputs.digest }}"
+          touch "${{ runner.temp }}/digests/${digest#sha256:}"
+
+      - name: Upload digest
+        uses: actions/upload-artifact@v4
+        with:
+          name: digests-${{ matrix.suffix }}
+          path: ${{ runner.temp }}/digests/*
+          if-no-files-found: error
+          retention-days: 1
+
+  merge:
+    needs: build
+    runs-on: ubuntu-latest
+    outputs:
+      pinned: ${{ steps.image.outputs.pinned }}
+    steps:
+      - name: Image names
+        id: image
+        run: |
+          name="ghcr.io/$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')"
+          short="$(echo '${{ github.sha }}' | cut -c1-7)"
+          echo "name=$name" >> "$GITHUB_OUTPUT"
+          echo "pinned=$name:sha-$short" >> "$GITHUB_OUTPUT"
+          echo "latest=$name:latest" >> "$GITHUB_OUTPUT"
+
+      - name: Download digests
+        uses: actions/download-artifact@v4
+        with:
+          path: ${{ runner.temp }}/digests
+          pattern: digests-*
+          merge-multiple: true
+
+      - name: Set up Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create multi-arch manifest
+        working-directory: ${{ runner.temp }}/digests
+        run: |
+          set -euo pipefail
+          mapfile -t files < <(find . -type f ! -name '.*' | sort)
+          echo "digest files:"
+          printf '  %s\n' "${files[@]}"
+          if [ "${#files[@]}" -ne 2 ]; then
+            echo "expected exactly 2 platform digests (amd64+arm64), got ${#files[@]}"
+            find . -ls
+            exit 1
+          fi
+          refs=()
+          for f in "${files[@]}"; do
+            refs+=("${{ steps.image.outputs.name }}@sha256:$(basename "$f")")
+          done
+          tags=(-t "${{ steps.image.outputs.pinned }}")
+          if [ "${{ github.ref_name }}" = "${{ github.event.repository.default_branch }}" ]; then
+            tags+=(-t "${{ steps.image.outputs.latest }}")
+          fi
+          docker buildx imagetools create "${tags[@]}" "${refs[@]}"
+          echo "===== manifest ${{ steps.image.outputs.pinned }} ====="
+          docker buildx imagetools inspect "${{ steps.image.outputs.pinned }}"
+          docker buildx imagetools inspect --raw "${{ steps.image.outputs.pinned }}" > index.json
+          python3 - <<'PY'
+          import json, sys
+          idx = json.load(open("index.json"))
+          manifests = idx.get("manifests") or []
+          plats = {
+              f"{(m.get('platform') or {}).get('os')}/{(m.get('platform') or {}).get('architecture')}"
+              for m in manifests
+          }
+          print("platforms:", sorted(plats))
+          missing = {"linux/arm64", "linux/amd64"} - plats
+          if missing:
+              sys.exit(f"manifest missing {missing}")
+          PY
+
+  smoke:
+    needs: merge
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Boot Postgres + Redis + migrate + /health
+        env:
+          IMAGE: ${{ needs.merge.outputs.pinned }}
+        run: |
+          set -euo pipefail
+          docker pull "$IMAGE"
+          docker network create switch-ci
+          docker run -d --name postgres --network switch-ci \
+            -e POSTGRES_USER=db_user \
+            -e POSTGRES_PASSWORD=db_pass \
+            -e POSTGRES_DB=hyperswitch_db \
+            postgres:16-alpine
+          docker run -d --name redis --network switch-ci redis:7-alpine
+          for i in $(seq 1 30); do
+            if docker exec postgres pg_isready -U db_user -d hyperswitch_db >/dev/null 2>&1 \
+              && docker exec redis redis-cli ping 2>/dev/null | grep -q PONG; then
+              break
+            fi
+            sleep 2
+          done
+          docker exec postgres pg_isready -U db_user -d hyperswitch_db
+          docker run --rm --network switch-ci --entrypoint diesel \
+            -e DATABASE_URL=postgres://db_user:db_pass@postgres:5432/hyperswitch_db \
+            "$IMAGE" migration run --migration-dir /local/migrations --config-file /local/diesel.toml
+          docker run -d --name router --network switch-ci -p 8080:8080 "$IMAGE"
+          for i in $(seq 1 60); do
+            if curl -fs http://127.0.0.1:8080/health >/dev/null 2>&1; then
+              echo "health: $(curl -fsS http://127.0.0.1:8080/health)"
+              docker rm -f router postgres redis
+              docker network rm switch-ci
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "did not become healthy"
+          docker logs router || true
+          docker logs postgres || true
+          docker logs redis || true
+          docker rm -f router postgres redis || true
+          docker network rm switch-ci || true
+          exit 1
+
+  deploy:
+    needs: [merge, smoke]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set kubeconfig
+        uses: azure/k8s-set-context@v4
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.KUBECONFIG }}
+
+      - name: Render and apply
+        env:
+          IMAGE: ${{ needs.merge.outputs.pinned }}
+          GHCR_USER: ${{ github.actor }}
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DOMAIN: ${{ vars.DOMAIN }}
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq gettext-base
+          DOMAIN="${DOMAIN:-meshlabstek.com}"
+          export IMAGE DOMAIN
+
+          kubectl apply -f k8s/namespace.yaml
+
+          kubectl -n omni-switch create secret docker-registry ghcr-pull-omni-switch \
+            --docker-server=ghcr.io \
+            --docker-username="$GHCR_USER" \
+            --docker-password="$GHCR_TOKEN" \
+            --dry-run=client -o yaml | kubectl apply -f -
+
+          if ! kubectl -n omni-switch get secret omni-switch-secrets >/dev/null 2>&1; then
+            kubectl -n omni-switch create secret generic omni-switch-secrets \
+              --from-literal=POSTGRES_USER=omniswitch \
+              --from-literal=POSTGRES_PASSWORD="$(openssl rand -hex 16)" \
+              --from-literal=POSTGRES_DB=hyperswitch_db \
+              --from-literal=ADMIN_API_KEY="$(openssl rand -hex 24)" \
+              --from-literal=JWT_SECRET="$(openssl rand -hex 32)" \
+              --from-literal=MASTER_ENC_KEY="$(openssl rand -hex 32)" \
+              --from-literal=API_HASH_KEY="$(openssl rand -hex 32)"
+          fi
+
+          kubectl apply -f k8s/postgres.yaml
+          kubectl apply -f k8s/redis.yaml
+          kubectl -n omni-switch rollout status sts/postgres --timeout=3m
+          kubectl -n omni-switch rollout status sts/redis --timeout=3m
+
+          envsubst '${IMAGE} ${DOMAIN}' < k8s/omni_switch_k3s.yaml.tmpl > /tmp/omni-switch.yaml
+          cat /tmp/omni-switch.yaml
+          kubectl apply -f /tmp/omni-switch.yaml
+          if ! kubectl -n omni-switch rollout status deployment/router --timeout=8m; then
+            echo "=== rollout failed; dumping diagnostics ==="
+            kubectl -n omni-switch get pods,svc,ingress
+            kubectl -n omni-switch get events --sort-by=.lastTimestamp | tail -40
+            kubectl -n omni-switch describe deploy/router
+            kubectl -n omni-switch describe pod -l app=router
+            kubectl -n omni-switch logs -l app=router -c migrate --tail=200 || true
+            kubectl -n omni-switch logs -l app=router -c router --tail=200 || true
+            kubectl -n omni-switch logs -l app=router -c router --previous --tail=100 || true
+            exit 1
+          fi
+          kubectl -n omni-switch get pods,svc,ingress
+          echo "https://switch.${DOMAIN}"
+          echo "https://switch.${DOMAIN}/health"
