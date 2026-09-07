@@ -7,9 +7,15 @@ FROM rust:bookworm AS builder
 
 ARG CARGO_BUILD_PROFILE=release-fast
 
+# libprotobuf-dev ships google/protobuf/*.proto. grpc-api-types (g2h) only
+# passes `-I proto`, so wrap protoc to always include /usr/include.
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-        libpq-dev libssl-dev pkg-config protobuf-compiler clang \
+        libpq-dev libssl-dev pkg-config clang \
+        protobuf-compiler libprotobuf-dev \
+    && test -f /usr/include/google/protobuf/empty.proto \
+    && printf '%s\n' '#!/bin/sh' 'exec /usr/bin/protoc -I/usr/include "$@"' > /usr/local/bin/protoc \
+    && chmod +x /usr/local/bin/protoc \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /router
@@ -17,7 +23,9 @@ WORKDIR /router
 ENV CARGO_INCREMENTAL=0 \
     CARGO_NET_RETRY=10 \
     RUSTUP_MAX_RETRIES=10 \
-    RUST_BACKTRACE=short
+    RUST_BACKTRACE=short \
+    PROTOC=/usr/local/bin/protoc \
+    PROTOC_INCLUDE=/usr/include
 
 COPY . .
 RUN cargo build --profile ${CARGO_BUILD_PROFILE} -p router --bin router \
