@@ -20,12 +20,18 @@ RUN apt-get update \
 
 WORKDIR /router
 
+# GitHub ARM runners are ~16Gi. router + 16 codegen-units OOMs rustc.
 ENV CARGO_INCREMENTAL=0 \
     CARGO_NET_RETRY=10 \
     RUSTUP_MAX_RETRIES=10 \
     RUST_BACKTRACE=short \
     PROTOC=/usr/local/bin/protoc \
-    PROTOC_INCLUDE=/usr/include
+    PROTOC_INCLUDE=/usr/include \
+    CARGO_BUILD_JOBS=1 \
+    CARGO_PROFILE_RELEASE_FAST_CODEGEN_UNITS=1 \
+    CARGO_PROFILE_RELEASE_FAST_OPT_LEVEL=2 \
+    CARGO_PROFILE_RELEASE_FAST_DEBUG=0 \
+    RUSTFLAGS="-C debuginfo=0"
 
 COPY . .
 RUN cargo build --profile ${CARGO_BUILD_PROFILE} -p router --bin router \
