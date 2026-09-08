@@ -11,6 +11,7 @@ pub struct ConnectorAuthentication {
     #[cfg(feature = "payouts")]
     pub adyenplatform: Option<HeaderKey>,
     pub affirm: Option<HeaderKey>,
+    pub airtel_tigo_cash: Option<HeaderKey>,
     #[cfg(feature = "payouts")]
     pub adyen: Option<SignatureKey>,
     #[cfg(not(feature = "payouts"))]
@@ -63,6 +64,7 @@ pub struct ConnectorAuthentication {
     pub flexiti: Option<HeaderKey>,
     pub forte: Option<MultiAuthKey>,
     pub getnet: Option<HeaderKey>,
+    pub ghipss: Option<HeaderKey>,
     pub gigadat: Option<SignatureKey>,
     pub givepayments: Option<HeaderKey>,
     pub globalpay: Option<BodyKey>,
@@ -86,6 +88,7 @@ pub struct ConnectorAuthentication {
     pub mifinity: Option<HeaderKey>,
     pub mollie: Option<BodyKey>,
     pub moneris: Option<SignatureKey>,
+    pub mtn_mobile_money: Option<HeaderKey>,
     pub mpgs: Option<HeaderKey>,
     pub multisafepay: Option<HeaderKey>,
     pub netcetera: Option<HeaderKey>,
@@ -133,6 +136,7 @@ pub struct ConnectorAuthentication {
     pub stax: Option<HeaderKey>,
     pub stripe: Option<HeaderKey>,
     pub stripebilling: Option<HeaderKey>,
+    pub telecel_cash: Option<HeaderKey>,
     pub taxjar: Option<HeaderKey>,
     pub tesouro: Option<HeaderKey>,
     pub threedsecureio: Option<HeaderKey>,

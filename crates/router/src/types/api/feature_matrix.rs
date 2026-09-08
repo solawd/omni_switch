@@ -28,6 +28,9 @@ impl FeatureMatrixConnectorData {
                 enums::Connector::Affirm => {
                     Ok(ConnectorEnum::Old(Box::new(connector::Affirm::new())))
                 }
+                enums::Connector::AirtelTigoCash => {
+                    Ok(ConnectorEnum::Old(Box::new(connector::AirtelTigoCash::new())))
+                }
                 enums::Connector::Adyenplatform => Ok(ConnectorEnum::Old(Box::new(
                     connector::Adyenplatform::new(),
                 ))),
@@ -197,6 +200,9 @@ impl FeatureMatrixConnectorData {
                 enums::Connector::Getnet => {
                     Ok(ConnectorEnum::Old(Box::new(connector::Getnet::new())))
                 }
+                enums::Connector::Ghipss => {
+                    Ok(ConnectorEnum::Old(Box::new(connector::Ghipss::new())))
+                }
                 enums::Connector::Gigadat => {
                     Ok(ConnectorEnum::Old(Box::new(connector::Gigadat::new())))
                 }
@@ -260,6 +266,9 @@ impl FeatureMatrixConnectorData {
                 }
                 enums::Connector::Moneris => {
                     Ok(ConnectorEnum::Old(Box::new(connector::Moneris::new())))
+                }
+                enums::Connector::MtnMobileMoney => {
+                    Ok(ConnectorEnum::Old(Box::new(connector::MtnMobileMoney::new())))
                 }
                 enums::Connector::Nexixpay => {
                     Ok(ConnectorEnum::Old(Box::new(connector::Nexixpay::new())))
@@ -360,6 +369,9 @@ impl FeatureMatrixConnectorData {
                 enums::Connector::Stripebilling => Ok(ConnectorEnum::Old(Box::new(
                     connector::Stripebilling::new(),
                 ))),
+                enums::Connector::TelecelCash => {
+                    Ok(ConnectorEnum::Old(Box::new(connector::TelecelCash::new())))
+                }
                 enums::Connector::Wise => Ok(ConnectorEnum::Old(Box::new(connector::Wise::new()))),
                 enums::Connector::Worldline => {
                     Ok(ConnectorEnum::Old(Box::new(&connector::Worldline)))

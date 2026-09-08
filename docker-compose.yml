@@ -117,8 +117,10 @@ services:
 
   ### Application services
   hyperswitch-server:
-    image: docker.juspay.io/juspaydotin/hyperswitch-router:standalone
-    pull_policy: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: hyperswitch-router:local
     command: /local/bin/router -f /local/config/docker_compose.toml
     ports:
       - "8080:8080"
@@ -227,8 +229,9 @@ services:
 
   ### Control Center
   hyperswitch-control-center:
-    image: docker.juspay.io/juspaydotin/hyperswitch-control-center:latest
-    pull_policy: always
+    build:
+      context: https://github.com/solawd/omniswitch-control-center.git
+    image: omniswitch-control-center:local
     ports:
       - "9000:9000"
     environment:

@@ -203,6 +203,10 @@ macro_rules! default_imp_for_authorize_session_token {
 }
 
 default_imp_for_authorize_session_token!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Vgs,
     connectors::AbsaSanlam,
     connectors::GotymeSanlam,
@@ -370,6 +374,10 @@ macro_rules! default_imp_for_payment_settlement_split_create {
 }
 
 default_imp_for_payment_settlement_split_create!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Vgs,
     connectors::AbsaSanlam,
     connectors::Aci,
@@ -539,6 +547,10 @@ macro_rules! default_imp_for_calculate_tax {
 }
 
 default_imp_for_calculate_tax!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Vgs,
     connectors::AbsaSanlam,
     connectors::Aci,
@@ -708,6 +720,10 @@ macro_rules! default_imp_for_session_update {
 }
 
 default_imp_for_session_update!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Paysafe,
     connectors::Vgs,
     connectors::AbsaSanlam,
@@ -877,6 +893,10 @@ macro_rules! default_imp_for_post_session_tokens {
 }
 
 default_imp_for_post_session_tokens!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Paysafe,
     connectors::Vgs,
     connectors::AbsaSanlam,
@@ -1046,6 +1066,10 @@ macro_rules! default_imp_for_create_order {
 }
 
 default_imp_for_create_order!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::AbsaSanlam,
     connectors::Aci,
     connectors::Adyen,
@@ -1225,6 +1249,10 @@ macro_rules! default_imp_for_update_post_confirm {
 }
 
 default_imp_for_update_post_confirm!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Payconex,
     connectors::Citigate,
     connectors::Worldpayraft,
@@ -1379,6 +1407,10 @@ default_imp_for_update_post_confirm!(
 );
 
 default_imp_for_update_metadata!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::AbsaSanlam,
     connectors::Santander,
     connectors::Aci,
@@ -1558,6 +1590,10 @@ macro_rules! default_imp_for_cancel_post_capture {
 }
 
 default_imp_for_cancel_post_capture!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::AbsaSanlam,
     connectors::Aci,
     connectors::Adyen,
@@ -1735,6 +1771,10 @@ macro_rules! default_imp_for_cancel_post_capture_sync {
 }
 
 default_imp_for_cancel_post_capture_sync!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Aci,
     connectors::Adyen,
     connectors::Adyenplatform,
@@ -1904,6 +1944,10 @@ macro_rules! default_imp_for_complete_authorize {
 }
 
 default_imp_for_complete_authorize!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Payconex,
     connectors::Citigate,
     connectors::Worldpayraft,
@@ -2049,6 +2093,10 @@ macro_rules! default_imp_for_incremental_authorization {
 }
 
 default_imp_for_incremental_authorization!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Paysafe,
     connectors::Vgs,
     connectors::AbsaSanlam,
@@ -2214,6 +2262,10 @@ macro_rules! default_imp_for_extend_authorization {
 }
 
 default_imp_for_extend_authorization!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::AbsaSanlam,
     connectors::Aci,
     connectors::Adyenplatform,
@@ -2383,6 +2435,10 @@ macro_rules! default_imp_for_create_customer {
 }
 
 default_imp_for_create_customer!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Vgs,
     connectors::AbsaSanlam,
     connectors::GotymeSanlam,
@@ -2543,6 +2599,10 @@ macro_rules! default_imp_for_connector_redirect_response {
 }
 
 default_imp_for_connector_redirect_response!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Worldpaymodular,
     connectors::Zift,
     connectors::Paysafe,
@@ -2690,6 +2750,10 @@ macro_rules! default_imp_for_pre_authenticate_steps{
 }
 
 default_imp_for_pre_authenticate_steps!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Payconex,
     connectors::Citigate,
     connectors::Worldpayraft,
@@ -2853,6 +2917,10 @@ macro_rules! default_imp_for_authenticate_steps{
 }
 
 default_imp_for_authenticate_steps!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Revolv3,
     connectors::TsysTransit,
     connectors::AbsaSanlam,
@@ -3021,6 +3089,10 @@ macro_rules! default_imp_for_post_authenticate_steps{
 }
 
 default_imp_for_post_authenticate_steps!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::AbsaSanlam,
     connectors::Payconex,
     connectors::Citigate,
@@ -3188,6 +3260,10 @@ macro_rules! default_imp_for_pre_processing_steps{
 }
 
 default_imp_for_pre_processing_steps!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Payconex,
     connectors::Citigate,
     connectors::Worldpayraft,
@@ -3342,6 +3418,10 @@ macro_rules! default_imp_for_post_processing_steps{
 }
 
 default_imp_for_post_processing_steps!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Vgs,
     connectors::AbsaSanlam,
     connectors::Aci,
@@ -3512,6 +3592,10 @@ macro_rules! default_imp_for_approve {
 }
 
 default_imp_for_approve!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Vgs,
     connectors::AbsaSanlam,
     connectors::Aci,
@@ -3683,6 +3767,10 @@ macro_rules! default_imp_for_reject {
 }
 
 default_imp_for_reject!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Vgs,
     connectors::AbsaSanlam,
     connectors::Aci,
@@ -3854,6 +3942,10 @@ macro_rules! default_imp_for_webhook_source_verification {
 }
 
 default_imp_for_webhook_source_verification!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Trustly,
     connectors::Paysafe,
     connectors::Vgs,
@@ -4024,6 +4116,10 @@ macro_rules! default_imp_for_accept_dispute {
 }
 
 default_imp_for_accept_dispute!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Vgs,
     connectors::AbsaSanlam,
     connectors::Aci,
@@ -4191,6 +4287,10 @@ macro_rules! default_imp_for_submit_evidence {
 }
 
 default_imp_for_submit_evidence!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Vgs,
     connectors::AbsaSanlam,
     connectors::Aci,
@@ -4358,6 +4458,10 @@ macro_rules! default_imp_for_defend_dispute {
 }
 
 default_imp_for_defend_dispute!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Vgs,
     connectors::AbsaSanlam,
     connectors::Aci,
@@ -4527,6 +4631,10 @@ macro_rules! default_imp_for_fetch_disputes {
 }
 
 default_imp_for_fetch_disputes!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Vgs,
     connectors::AbsaSanlam,
     connectors::Aci,
@@ -4697,6 +4805,10 @@ macro_rules! default_imp_for_dispute_sync {
 }
 
 default_imp_for_dispute_sync!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Vgs,
     connectors::AbsaSanlam,
     connectors::Aci,
@@ -4876,6 +4988,10 @@ macro_rules! default_imp_for_file_upload {
 }
 
 default_imp_for_file_upload!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Vgs,
     connectors::AbsaSanlam,
     connectors::Aci,
@@ -5036,6 +5152,10 @@ macro_rules! default_imp_for_payouts {
 }
 
 default_imp_for_payouts!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Givepayments,
     connectors::Worldpaymodular,
     connectors::Paysafe,
@@ -5190,6 +5310,10 @@ macro_rules! default_imp_for_payouts_create {
 
 #[cfg(feature = "payouts")]
 default_imp_for_payouts_create!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Givepayments,
     connectors::Paysafe,
     connectors::Vgs,
@@ -5355,6 +5479,10 @@ macro_rules! default_imp_for_payouts_retrieve {
 
 #[cfg(feature = "payouts")]
 default_imp_for_payouts_retrieve!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Givepayments,
     connectors::Paysafe,
     connectors::Vgs,
@@ -5520,6 +5648,10 @@ macro_rules! default_imp_for_payouts_eligibility {
 
 #[cfg(feature = "payouts")]
 default_imp_for_payouts_eligibility!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Vgs,
     connectors::AbsaSanlam,
     connectors::Aci,
@@ -5689,6 +5821,10 @@ macro_rules! default_imp_for_payouts_fulfill {
 
 #[cfg(feature = "payouts")]
 default_imp_for_payouts_fulfill!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Givepayments,
     connectors::Worldpaymodular,
     connectors::Paysafe,
@@ -5845,6 +5981,10 @@ macro_rules! default_imp_for_payouts_cancel {
 
 #[cfg(feature = "payouts")]
 default_imp_for_payouts_cancel!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Vgs,
     connectors::AbsaSanlam,
     connectors::Aci,
@@ -6012,6 +6152,10 @@ macro_rules! default_imp_for_payouts_quote {
 
 #[cfg(feature = "payouts")]
 default_imp_for_payouts_quote!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Givepayments,
     connectors::Vgs,
     connectors::AbsaSanlam,
@@ -6181,6 +6325,10 @@ macro_rules! default_imp_for_payouts_recipient {
 
 #[cfg(feature = "payouts")]
 default_imp_for_payouts_recipient!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Vgs,
     connectors::AbsaSanlam,
     connectors::Aci,
@@ -6349,6 +6497,10 @@ macro_rules! default_imp_for_payouts_recipient_account {
 
 #[cfg(feature = "payouts")]
 default_imp_for_payouts_recipient_account!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Vgs,
     connectors::AbsaSanlam,
     connectors::Aci,
@@ -6520,6 +6672,10 @@ macro_rules! default_imp_for_frm_sale {
 
 #[cfg(feature = "frm")]
 default_imp_for_frm_sale!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Vgs,
     connectors::AbsaSanlam,
     connectors::Aci,
@@ -6691,6 +6847,10 @@ macro_rules! default_imp_for_frm_checkout {
 
 #[cfg(feature = "frm")]
 default_imp_for_frm_checkout!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Vgs,
     connectors::AbsaSanlam,
     connectors::Aci,
@@ -6861,6 +7021,10 @@ macro_rules! default_imp_for_frm_transaction {
 
 #[cfg(feature = "frm")]
 default_imp_for_frm_transaction!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Vgs,
     connectors::AbsaSanlam,
     connectors::Aci,
@@ -7031,6 +7195,10 @@ macro_rules! default_imp_for_frm_fulfillment {
 
 #[cfg(feature = "frm")]
 default_imp_for_frm_fulfillment!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Vgs,
     connectors::AbsaSanlam,
     connectors::Aci,
@@ -7202,6 +7370,10 @@ macro_rules! default_imp_for_frm_record_return {
 
 #[cfg(feature = "frm")]
 default_imp_for_frm_record_return!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Vgs,
     connectors::AbsaSanlam,
     connectors::Aci,
@@ -7370,6 +7542,10 @@ macro_rules! default_imp_for_revoking_mandates {
 }
 
 default_imp_for_revoking_mandates!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Vgs,
     connectors::AbsaSanlam,
     connectors::Aci,
@@ -7536,6 +7712,10 @@ macro_rules! default_imp_for_uas_pre_authentication {
 }
 
 default_imp_for_uas_pre_authentication!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Vgs,
     connectors::AbsaSanlam,
     connectors::Aci,
@@ -7704,6 +7884,10 @@ macro_rules! default_imp_for_uas_webhook {
 }
 
 default_imp_for_uas_webhook!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Vgs,
     connectors::AbsaSanlam,
     connectors::Aci,
@@ -7872,6 +8056,10 @@ macro_rules! default_imp_for_uas_post_authentication {
 }
 
 default_imp_for_uas_post_authentication!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Vgs,
     connectors::AbsaSanlam,
     connectors::Aci,
@@ -8041,6 +8229,10 @@ macro_rules! default_imp_for_uas_authentication_confirmation {
 }
 
 default_imp_for_uas_authentication_confirmation!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Vgs,
     connectors::AbsaSanlam,
     connectors::Aci,
@@ -8202,6 +8394,10 @@ macro_rules! default_imp_for_connector_request_id {
     };
 }
 default_imp_for_connector_request_id!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Vgs,
     connectors::AbsaSanlam,
     connectors::Aci,
@@ -8365,6 +8561,10 @@ macro_rules! default_imp_for_fraud_check {
 }
 #[cfg(feature = "frm")]
 default_imp_for_fraud_check!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Vgs,
     connectors::AbsaSanlam,
     connectors::Aci,
@@ -8557,6 +8757,10 @@ macro_rules! default_imp_for_connector_authentication {
 }
 
 default_imp_for_connector_authentication!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Vgs,
     connectors::AbsaSanlam,
     connectors::Aci,
@@ -8723,6 +8927,10 @@ macro_rules! default_imp_for_uas_authentication {
     };
 }
 default_imp_for_uas_authentication!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Vgs,
     connectors::AbsaSanlam,
     connectors::Aci,
@@ -8904,6 +9112,10 @@ macro_rules! default_imp_for_revenue_recovery_dispute_record_back {
 
 #[cfg(all(feature = "v2", feature = "revenue_recovery"))]
 default_imp_for_revenue_recovery_dispute_record_back!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Vgs,
     connectors::AbsaSanlam,
     connectors::Aci,
@@ -9059,6 +9271,10 @@ default_imp_for_revenue_recovery_dispute_record_back!(
 );
 
 default_imp_for_revenue_recovery!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Vgs,
     connectors::AbsaSanlam,
     connectors::Aci,
@@ -9281,6 +9497,10 @@ macro_rules! default_imp_for_subscriptions {
 }
 
 default_imp_for_subscriptions!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Vgs,
     connectors::AbsaSanlam,
     connectors::Aci,
@@ -9451,6 +9671,10 @@ macro_rules! default_imp_for_billing_connector_payment_sync {
 
 #[cfg(all(feature = "v2", feature = "revenue_recovery"))]
 default_imp_for_billing_connector_payment_sync!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Vgs,
     connectors::AbsaSanlam,
     connectors::Aci,
@@ -9615,6 +9839,10 @@ macro_rules! default_imp_for_revenue_recovery_record_back {
 
 #[cfg(all(feature = "v2", feature = "revenue_recovery"))]
 default_imp_for_revenue_recovery_record_back!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Vgs,
     connectors::AbsaSanlam,
     connectors::Aci,
@@ -9785,6 +10013,10 @@ macro_rules! default_imp_for_billing_connector_invoice_sync {
 
 #[cfg(all(feature = "v2", feature = "revenue_recovery"))]
 default_imp_for_billing_connector_invoice_sync!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::AbsaSanlam,
     connectors::Aci,
     connectors::Adyen,
@@ -9949,6 +10181,10 @@ macro_rules! default_imp_for_external_vault {
 }
 
 default_imp_for_external_vault!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::AbsaSanlam,
     connectors::Aci,
     connectors::Adyen,
@@ -10118,6 +10354,10 @@ macro_rules! default_imp_for_external_vault_insert {
 }
 
 default_imp_for_external_vault_insert!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::AbsaSanlam,
     connectors::Aci,
     connectors::Adyen,
@@ -10286,6 +10526,10 @@ macro_rules! default_imp_for_gift_card_balance_check {
     };
 }
 default_imp_for_gift_card_balance_check!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::AbsaSanlam,
     connectors::Aci,
     connectors::Adyenplatform,
@@ -10455,6 +10699,10 @@ macro_rules! default_imp_for_external_vault_retrieve {
 }
 
 default_imp_for_external_vault_retrieve!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::AbsaSanlam,
     connectors::Aci,
     connectors::Adyen,
@@ -10624,6 +10872,10 @@ macro_rules! default_imp_for_external_vault_delete {
 }
 
 default_imp_for_external_vault_delete!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::AbsaSanlam,
     connectors::Aci,
     connectors::Adyen,
@@ -10795,6 +11047,10 @@ macro_rules! default_imp_for_external_vault_create {
 }
 
 default_imp_for_external_vault_create!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Hyperwallet,
     connectors::AbsaSanlam,
     connectors::Aci,
@@ -10965,6 +11221,10 @@ macro_rules! default_imp_for_connector_authentication_token {
 }
 
 default_imp_for_connector_authentication_token!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::AbsaSanlam,
     connectors::Aci,
     connectors::Adyen,
@@ -11134,6 +11394,10 @@ macro_rules! default_imp_for_external_vault_proxy_payments_create {
 }
 
 default_imp_for_external_vault_proxy_payments_create!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::AbsaSanlam,
     connectors::Aci,
     connectors::Adyen,
@@ -11314,6 +11578,10 @@ macro_rules! default_imp_for_connector_webhook_register {
 }
 
 default_imp_for_connector_webhook_register!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Vgs,
     connectors::AbsaSanlam,
     connectors::Aci,
@@ -12302,6 +12570,10 @@ macro_rules! default_imp_for_generate_qr_flow{
 }
 
 default_imp_for_generate_qr_flow!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Plaid,
     connectors::Vgs,
     connectors::AbsaSanlam,
@@ -12472,6 +12744,10 @@ macro_rules! default_imp_for_push_notification_flow {
 }
 
 default_imp_for_push_notification_flow!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Plaid,
     connectors::Vgs,
     connectors::AbsaSanlam,
@@ -12651,6 +12927,10 @@ macro_rules! default_imp_for_pre_authorize_void {
 }
 
 default_imp_for_pre_authorize_void!(
+    connectors::MtnMobileMoney,
+    connectors::AirtelTigoCash,
+    connectors::TelecelCash,
+    connectors::Ghipss,
     connectors::Payconex,
     connectors::Citigate,
     connectors::Worldpayraft,

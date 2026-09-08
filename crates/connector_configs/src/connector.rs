@@ -268,6 +268,9 @@ pub struct ConnectorConfig {
     pub aci: Option<ConnectorTomlConfig>,
     pub adyen: Option<ConnectorTomlConfig>,
     pub affirm: Option<ConnectorTomlConfig>,
+    pub airtel_tigo_cash: Option<ConnectorTomlConfig>,
+    #[cfg(feature = "payouts")]
+    pub airtel_tigo_cash_payout: Option<ConnectorTomlConfig>,
     #[cfg(feature = "payouts")]
     pub adyen_payout: Option<ConnectorTomlConfig>,
     #[cfg(feature = "payouts")]
@@ -331,6 +334,9 @@ pub struct ConnectorConfig {
     pub flexiti: Option<ConnectorTomlConfig>,
     pub forte: Option<ConnectorTomlConfig>,
     pub getnet: Option<ConnectorTomlConfig>,
+    pub ghipss: Option<ConnectorTomlConfig>,
+    #[cfg(feature = "payouts")]
+    pub ghipss_payout: Option<ConnectorTomlConfig>,
     pub gigadat: Option<ConnectorTomlConfig>,
     pub givepayments: Option<ConnectorTomlConfig>,
     #[cfg(feature = "payouts")]
@@ -357,6 +363,9 @@ pub struct ConnectorConfig {
     pub mifinity: Option<ConnectorTomlConfig>,
     pub mollie: Option<ConnectorTomlConfig>,
     pub moneris: Option<ConnectorTomlConfig>,
+    pub mtn_mobile_money: Option<ConnectorTomlConfig>,
+    #[cfg(feature = "payouts")]
+    pub mtn_mobile_money_payout: Option<ConnectorTomlConfig>,
     pub mpgs: Option<ConnectorTomlConfig>,
     pub multisafepay: Option<ConnectorTomlConfig>,
     pub nexinets: Option<ConnectorTomlConfig>,
@@ -405,6 +414,9 @@ pub struct ConnectorConfig {
     #[cfg(feature = "payouts")]
     pub stripe_payout: Option<ConnectorTomlConfig>,
     pub stripebilling: Option<ConnectorTomlConfig>,
+    pub telecel_cash: Option<ConnectorTomlConfig>,
+    #[cfg(feature = "payouts")]
+    pub telecel_cash_payout: Option<ConnectorTomlConfig>,
     pub signifyd: Option<ConnectorTomlConfig>,
     pub tersouro: Option<ConnectorTomlConfig>,
     pub tokenex: Option<ConnectorTomlConfig>,
@@ -475,16 +487,20 @@ impl ConnectorConfig {
         match connector {
             PayoutConnectors::Adyen => Ok(connector_data.adyen_payout),
             PayoutConnectors::Adyenplatform => Ok(connector_data.adyenplatform_payout),
+            PayoutConnectors::AirtelTigoCash => Ok(connector_data.airtel_tigo_cash_payout),
             PayoutConnectors::Cybersource => Ok(connector_data.cybersource_payout),
             PayoutConnectors::Deutschebank => Ok(connector_data.deutschebank_payout),
             PayoutConnectors::Ebanx => Ok(connector_data.ebanx_payout),
             PayoutConnectors::Gigadat => Ok(connector_data.gigadat_payout),
+            PayoutConnectors::Ghipss => Ok(connector_data.ghipss_payout),
             PayoutConnectors::Loonio => Ok(connector_data.loonio_payout),
+            PayoutConnectors::MtnMobileMoney => Ok(connector_data.mtn_mobile_money_payout),
             PayoutConnectors::Nomupay => Ok(connector_data.nomupay_payout),
             PayoutConnectors::Nuvei => Ok(connector_data.nuvei_payout),
             PayoutConnectors::Payone => Ok(connector_data.payone_payout),
             PayoutConnectors::Paypal => Ok(connector_data.paypal_payout),
             PayoutConnectors::Stripe => Ok(connector_data.stripe_payout),
+            PayoutConnectors::TelecelCash => Ok(connector_data.telecel_cash_payout),
             PayoutConnectors::Truelayer => Ok(connector_data.truelayer_payout),
             PayoutConnectors::Trustly => Ok(connector_data.trustly_payout),
             PayoutConnectors::Wise => Ok(connector_data.wise_payout),
@@ -566,6 +582,7 @@ impl ConnectorConfig {
             Connector::Authipay => Ok(connector_data.authipay),
             Connector::Adyen => Ok(connector_data.adyen),
             Connector::Affirm => Ok(connector_data.affirm),
+            Connector::AirtelTigoCash => Ok(connector_data.airtel_tigo_cash),
             Connector::Adyenplatform => Err("Use get_payout_connector_config".to_string()),
             Connector::Airwallex => Ok(connector_data.airwallex),
             Connector::Amazonpay => Ok(connector_data.amazonpay),
@@ -618,6 +635,7 @@ impl ConnectorConfig {
             Connector::Flexiti => Ok(connector_data.flexiti),
             Connector::Forte => Ok(connector_data.forte),
             Connector::Getnet => Ok(connector_data.getnet),
+            Connector::Ghipss => Ok(connector_data.ghipss),
             Connector::Gigadat => Ok(connector_data.gigadat),
             Connector::Globalpay => Ok(connector_data.globalpay),
             Connector::Globepay => Ok(connector_data.globepay),
@@ -637,6 +655,7 @@ impl ConnectorConfig {
             Connector::Mifinity => Ok(connector_data.mifinity),
             Connector::Mollie => Ok(connector_data.mollie),
             Connector::Moneris => Ok(connector_data.moneris),
+            Connector::MtnMobileMoney => Ok(connector_data.mtn_mobile_money),
             Connector::Multisafepay => Ok(connector_data.multisafepay),
             Connector::Nexinets => Ok(connector_data.nexinets),
             Connector::Nexixpay => Ok(connector_data.nexixpay),
@@ -673,6 +692,7 @@ impl ConnectorConfig {
             Connector::Stax => Ok(connector_data.stax),
             Connector::Stripe => Ok(connector_data.stripe),
             Connector::Stripebilling => Ok(connector_data.stripebilling),
+            Connector::TelecelCash => Ok(connector_data.telecel_cash),
             Connector::Tesouro => Ok(connector_data.tesouro),
             Connector::Tokenex => Ok(connector_data.tokenex),
             Connector::Tokenio => Ok(connector_data.tokenio),

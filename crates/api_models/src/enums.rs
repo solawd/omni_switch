@@ -48,17 +48,21 @@ pub enum RoutingAlgorithm {
 pub enum PayoutConnectors {
     Adyen,
     Adyenplatform,
+    AirtelTigoCash,
     Cybersource,
     Deutschebank,
     Ebanx,
+    Ghipss,
     Gigadat,
     GotymeSanlam,
     Loonio,
+    MtnMobileMoney,
     Nomupay,
     Nuvei,
     Payone,
     Paypal,
     Stripe,
+    TelecelCash,
     Truelayer,
     Trustly,
     Wise,
@@ -95,6 +99,10 @@ impl From<PayoutConnectors> for RoutableConnectors {
     fn from(value: PayoutConnectors) -> Self {
         match value {
             PayoutConnectors::Adyen => Self::Adyen,
+            PayoutConnectors::AirtelTigoCash => Self::AirtelTigoCash,
+            PayoutConnectors::Ghipss => Self::Ghipss,
+            PayoutConnectors::MtnMobileMoney => Self::MtnMobileMoney,
+            PayoutConnectors::TelecelCash => Self::TelecelCash,
             PayoutConnectors::Adyenplatform => Self::Adyenplatform,
             PayoutConnectors::Cybersource => Self::Cybersource,
             PayoutConnectors::Deutschebank => Self::Deutschebank,
@@ -124,6 +132,10 @@ impl From<PayoutConnectors> for Connector {
     fn from(value: PayoutConnectors) -> Self {
         match value {
             PayoutConnectors::Adyen => Self::Adyen,
+            PayoutConnectors::AirtelTigoCash => Self::AirtelTigoCash,
+            PayoutConnectors::Ghipss => Self::Ghipss,
+            PayoutConnectors::MtnMobileMoney => Self::MtnMobileMoney,
+            PayoutConnectors::TelecelCash => Self::TelecelCash,
             PayoutConnectors::Adyenplatform => Self::Adyenplatform,
             PayoutConnectors::Cybersource => Self::Cybersource,
             PayoutConnectors::Deutschebank => Self::Deutschebank,
