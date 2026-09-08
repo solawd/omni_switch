@@ -355,8 +355,9 @@ services:
       - redisinsight_store:/db
 
   hyperswitch-control-center:
-    image: docker.juspay.io/juspaydotin/hyperswitch-control-center:latest
-    pull_policy: always
+    build:
+      context: https://github.com/solawd/omniswitch-control-center.git
+    image: omniswitch-control-center:local
     networks:
       - router_net
     ports:

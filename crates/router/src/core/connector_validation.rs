@@ -88,6 +88,10 @@ impl ConnectorAuthTypeAndMetadataValidation<'_> {
                 affirm::transformers::AffirmAuthType::try_from(self.auth_type)?;
                 Ok(())
             }
+            api_enums::Connector::AirtelTigoCash => {
+                airtel_tigo_cash::transformers::AirtelTigoCashAuthType::try_from(self.auth_type)?;
+                Ok(())
+            }
             api_enums::Connector::Airwallex => {
                 airwallex::transformers::AirwallexAuthType::try_from(self.auth_type)?;
                 Ok(())
@@ -281,6 +285,10 @@ impl ConnectorAuthTypeAndMetadataValidation<'_> {
                 getnet::transformers::GetnetAuthType::try_from(self.auth_type)?;
                 Ok(())
             }
+            api_enums::Connector::Ghipss => {
+                ghipss::transformers::GhipssAuthType::try_from(self.auth_type)?;
+                Ok(())
+            }
             api_enums::Connector::Gigadat => {
                 gigadat::transformers::GigadatAuthType::try_from(self.auth_type)?;
                 gigadat::transformers::GigadatConnectorMetadataObject::try_from(
@@ -386,6 +394,10 @@ impl ConnectorAuthTypeAndMetadataValidation<'_> {
             }
             api_enums::Connector::Moneris => {
                 moneris::transformers::MonerisAuthType::try_from(self.auth_type)?;
+                Ok(())
+            }
+            api_enums::Connector::MtnMobileMoney => {
+                mtn_mobile_money::transformers::MtnMobileMoneyAuthType::try_from(self.auth_type)?;
                 Ok(())
             }
             api_enums::Connector::Multisafepay => {
@@ -552,6 +564,10 @@ impl ConnectorAuthTypeAndMetadataValidation<'_> {
             }
             api_enums::Connector::Stripebilling => {
                 stripebilling::transformers::StripebillingAuthType::try_from(self.auth_type)?;
+                Ok(())
+            }
+            api_enums::Connector::TelecelCash => {
+                telecel_cash::transformers::TelecelCashAuthType::try_from(self.auth_type)?;
                 Ok(())
             }
             api_enums::Connector::Tesouro => {

@@ -11,6 +11,7 @@ impl ForeignTryFrom<api_enums::Connector> for euclid::enums::RoutableConnectors 
             api_enums::Connector::Aci => Self::Aci,
             api_enums::Connector::Adyen => Self::Adyen,
             api_enums::Connector::Affirm => Self::Affirm,
+            api_enums::Connector::AirtelTigoCash => Self::AirtelTigoCash,
             api_enums::Connector::Adyenplatform => Self::Adyenplatform,
             api_enums::Connector::Airwallex => Self::Airwallex,
             api_enums::Connector::Amazonpay => Self::Amazonpay,
@@ -72,6 +73,7 @@ impl ForeignTryFrom<api_enums::Connector> for euclid::enums::RoutableConnectors 
             api_enums::Connector::Flexiti => Self::Flexiti,
             api_enums::Connector::Forte => Self::Forte,
             api_enums::Connector::Getnet => Self::Getnet,
+            api_enums::Connector::Ghipss => Self::Ghipss,
             api_enums::Connector::Gigadat => Self::Gigadat,
             api_enums::Connector::Ilixium => Self::Ilixium,
             api_enums::Connector::Givepayments => Self::Givepayments,
@@ -113,6 +115,7 @@ impl ForeignTryFrom<api_enums::Connector> for euclid::enums::RoutableConnectors 
             api_enums::Connector::Mifinity => Self::Mifinity,
             api_enums::Connector::Mollie => Self::Mollie,
             api_enums::Connector::Moneris => Self::Moneris,
+            api_enums::Connector::MtnMobileMoney => Self::MtnMobileMoney,
             api_enums::Connector::Multisafepay => Self::Multisafepay,
             api_enums::Connector::Netcetera => {
                 Err(common_utils::errors::ValidationError::InvalidValue {
@@ -171,6 +174,7 @@ impl ForeignTryFrom<api_enums::Connector> for euclid::enums::RoutableConnectors 
             api_enums::Connector::Stax => Self::Stax,
             api_enums::Connector::Stripe => Self::Stripe,
             api_enums::Connector::Stripebilling => Self::Stripebilling,
+            api_enums::Connector::TelecelCash => Self::TelecelCash,
             // api_enums::Connector::Thunes => Self::Thunes,
             api_enums::Connector::Tesouro => Self::Tesouro,
             api_enums::Connector::Tokenex => {

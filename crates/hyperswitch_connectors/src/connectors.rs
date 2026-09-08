@@ -3,6 +3,7 @@ pub mod aci;
 pub mod adyen;
 pub mod adyenplatform;
 pub mod affirm;
+pub mod airtel_tigo_cash;
 pub mod airwallex;
 pub mod amazonpay;
 pub mod archipel;
@@ -52,6 +53,7 @@ pub mod fiuu;
 pub mod flexiti;
 pub mod forte;
 pub mod getnet;
+pub mod ghipss;
 pub mod gigadat;
 pub mod givepayments;
 pub mod globalpay;
@@ -78,6 +80,7 @@ pub mod loonio;
 pub mod mifinity;
 pub mod mollie;
 pub mod moneris;
+pub mod mtn_mobile_money;
 pub mod mpgs;
 pub mod multisafepay;
 pub mod netcetera;
@@ -127,6 +130,7 @@ pub mod stripe;
 pub mod stripebilling;
 pub mod taxjar;
 pub mod tesouro;
+pub mod telecel_cash;
 pub mod threedsecureio;
 pub mod thunes;
 pub mod tokenex;
@@ -156,7 +160,7 @@ pub mod zsl;
 #[cfg(feature = "dummy_connector")]
 pub use self::dummyconnector::DummyConnector;
 pub use self::{
-    absa_sanlam::AbsaSanlam, aci::Aci, adyen::Adyen, adyenplatform::Adyenplatform, affirm::Affirm,
+    absa_sanlam::AbsaSanlam, aci::Aci, adyen::Adyen, adyenplatform::Adyenplatform, affirm::Affirm, airtel_tigo_cash::AirtelTigoCash,
     airwallex::Airwallex, amazonpay::Amazonpay, archipel::Archipel, authipay::Authipay,
     authorizedotnet::Authorizedotnet, bambora::Bambora, bamboraapac::Bamboraapac,
     bankofamerica::Bankofamerica, barclaycard::Barclaycard, billwerk::Billwerk, bitpay::Bitpay,
@@ -169,14 +173,14 @@ pub use self::{
     deutschebank::Deutschebank, digitalvirgo::Digitalvirgo, dlocal::Dlocal, dwolla::Dwolla,
     ebanx::Ebanx, elavon::Elavon, envoy::Envoy, facilitapay::Facilitapay, finix::Finix,
     fiserv::Fiserv, fiservcommercehub::Fiservcommercehub, fiservemea::Fiservemea, fiuu::Fiuu,
-    flexiti::Flexiti, forte::Forte, getnet::Getnet, gigadat::Gigadat, givepayments::Givepayments,
+    flexiti::Flexiti, forte::Forte, getnet::Getnet, ghipss::Ghipss, gigadat::Gigadat, givepayments::Givepayments,
     globalpay::Globalpay, globepay::Globepay, gocardless::Gocardless, gotyme_sanlam::GotymeSanlam,
     gpayments::Gpayments, helcim::Helcim, hipay::Hipay, hyperpg::Hyperpg,
     hyperswitch_vault::HyperswitchVault, hyperwallet::Hyperwallet, iatapay::Iatapay,
     ilixium::Ilixium, imerchantsolutions::Imerchantsolutions, inespay::Inespay,
     interpayments::Interpayments, itaubank::Itaubank, jpmorgan::Jpmorgan,
     juspaythreedsserver::Juspaythreedsserver, katapult::Katapult, klarna::Klarna, loonio::Loonio,
-    mifinity::Mifinity, mollie::Mollie, moneris::Moneris, mpgs::Mpgs, multisafepay::Multisafepay,
+    mifinity::Mifinity, mollie::Mollie, moneris::Moneris, mtn_mobile_money::MtnMobileMoney, mpgs::Mpgs, multisafepay::Multisafepay,
     netcetera::Netcetera, nexinets::Nexinets, nexixpay::Nexixpay, nmi::Nmi, nomupay::Nomupay,
     noon::Noon, nordea::Nordea, novalnet::Novalnet, nuvei::Nuvei, opayo::Opayo, opennode::Opennode,
     paybox::Paybox, payconex::Payconex, payeezy::Payeezy, payjustnow::Payjustnow,
@@ -186,7 +190,7 @@ pub use self::{
     powertranz::Powertranz, prophetpay::Prophetpay, rapyd::Rapyd, razorpay::Razorpay,
     recurly::Recurly, redsys::Redsys, revolv3::Revolv3, riskified::Riskified, santander::Santander,
     shift4::Shift4, sift::Sift, signifyd::Signifyd, silverflow::Silverflow, square::Square,
-    stax::Stax, stripe::Stripe, stripebilling::Stripebilling, taxjar::Taxjar, tesouro::Tesouro,
+    stax::Stax, stripe::Stripe, stripebilling::Stripebilling, taxjar::Taxjar, tesouro::Tesouro, telecel_cash::TelecelCash,
     threedsecureio::Threedsecureio, thunes::Thunes, tokenex::Tokenex, tokenio::Tokenio,
     truelayer::Truelayer, trustly::Trustly, trustpay::Trustpay, trustpayments::Trustpayments,
     tsys::Tsys, tsys_transit::TsysTransit,

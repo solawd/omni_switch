@@ -66,6 +66,7 @@ pub enum Connector {
     Aci,
     Adyen,
     Affirm,
+    AirtelTigoCash,
     Airwallex,
     Amazonpay,
     Archipel,
@@ -115,6 +116,7 @@ pub enum Connector {
     Flexiti,
     Forte,
     Getnet,
+    Ghipss,
     Gigadat,
     Givepayments,
     Globalpay,
@@ -141,6 +143,7 @@ pub enum Connector {
     Mifinity,
     Mollie,
     Moneris,
+    MtnMobileMoney,
     Multisafepay,
     Netcetera,
     Nexinets,
@@ -184,6 +187,7 @@ pub enum Connector {
     Stripe,
     Stripebilling,
     Taxjar,
+    TelecelCash,
     Threedsecureio,
     // Tokenio,
     //Thunes,
@@ -472,7 +476,11 @@ impl Connector {
             | Self::Phonepe
             | Self::Imerchantsolutions
             | Self::Ilixium
-            | Self::Givepayments => false,
+            | Self::Givepayments
+            | Self::AirtelTigoCash
+            | Self::Ghipss
+            | Self::MtnMobileMoney
+            | Self::TelecelCash => false,
             Self::Stripe | Self::Checkout | Self::Zift | Self::Nmi | Self::Braintree|
             Self::Cybersource | Self::Archipel | Self::Nuvei | Self::Adyen => true,
         }
