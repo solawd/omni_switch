@@ -505,7 +505,7 @@ sts_role_session_name = ""
 [user]
 password_validity_in_days = 90
 two_factor_auth_expiry_in_secs = 300
-totp_issuer_name = "Hyperswitch Dev"
+totp_issuer_name = "OmniSwitch"
 base_url = "http://localhost:8080"
 force_two_factor_auth = false
 force_cookies = false
@@ -1367,9 +1367,9 @@ google_pay_root_signing_keys = "GOOGLE_PAY_ROOT_SIGNING_KEYS" # Base 64 Encoded 
 sdk_url = "http://localhost:9050/HyperLoader.js"
 expiry = 900
 [generic_link.payment_method_collect.ui_config]
-theme = "#4285F4"
-logo = "https://app.hyperswitch.io/HyperswitchFavicon.png"
-merchant_name = "HyperSwitch"
+theme = "#18264f"
+logo = "data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Ccircle%20cx=%2232%22%20cy=%2232%22%20r=%2229%22%20fill=%22%2318264f%22%20stroke=%22%23c9a96a%22%20stroke-width=%223%22/%3E%3Ctext%20x=%2232%22%20y=%2244%22%20font-family=%22Georgia,%20serif%22%20font-size=%2238%22%20font-weight=%22700%22%20fill=%22%23c9a96a%22%20text-anchor=%22middle%22%3E$%3C/text%3E%3C/svg%3E"
+merchant_name = "OmniSwitch"
 [generic_link.payment_method_collect.enabled_payment_methods]
 card = "credit,debit"
 bank_transfer = "ach,bacs,sepa"
@@ -1379,9 +1379,9 @@ wallet = "paypal,pix,venmo"
 sdk_url = "http://localhost:9050/HyperLoader.js"
 expiry = 900
 [generic_link.payout_link.ui_config]
-theme = "#4285F4"
-logo = "https://app.hyperswitch.io/HyperswitchFavicon.png"
-merchant_name = "HyperSwitch"
+theme = "#18264f"
+logo = "data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Ccircle%20cx=%2232%22%20cy=%2232%22%20r=%2229%22%20fill=%22%2318264f%22%20stroke=%22%23c9a96a%22%20stroke-width=%223%22/%3E%3Ctext%20x=%2232%22%20y=%2244%22%20font-family=%22Georgia,%20serif%22%20font-size=%2238%22%20font-weight=%22700%22%20fill=%22%23c9a96a%22%20text-anchor=%22middle%22%3E$%3C/text%3E%3C/svg%3E"
+merchant_name = "OmniSwitch"
 [generic_link.payout_link.enabled_payment_methods]
 card = "credit,debit"
 
@@ -1560,10 +1560,10 @@ base_url = "http://127.0.0.1:8080" #Base URL
 file_storage_backend = "file_system" # Theme storage backend to be used
 
 [theme.email_config]
-entity_name = "Hyperswitch"                                                      # Display name in emails
-entity_logo_url = "https://app.hyperswitch.io/email-assets/HyperswitchLogo.png"  # Logo URL for emails
-foreground_color = "#111326"                                                     # Text color
-primary_color = "#006DF9"                                                        # Primary color
+entity_name = "OmniSwitch"                                                      # Display name in emails
+entity_logo_url = "data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Ccircle%20cx=%2232%22%20cy=%2232%22%20r=%2229%22%20fill=%22%2318264f%22%20stroke=%22%23c9a96a%22%20stroke-width=%223%22/%3E%3Ctext%20x=%2232%22%20y=%2244%22%20font-family=%22Georgia,%20serif%22%20font-size=%2238%22%20font-weight=%22700%22%20fill=%22%23c9a96a%22%20text-anchor=%22middle%22%3E$%3C/text%3E%3C/svg%3E"  # Logo URL for emails
+foreground_color = "#18264f"                                                     # Text color
+primary_color = "#18264f"                                                        # Primary color
 background_color = "#FFFFFF"                                                     # Email background color
 
 [platform]
