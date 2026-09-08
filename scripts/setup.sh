@@ -199,7 +199,7 @@ check_prerequisites() {
 
     if [ ${#unavailable_ports[@]} -ne 0 ]; then
         echo_warning "The following ports are already in use: ${unavailable_ports[*]}"
-        echo_warning "This might cause conflicts with Hyperswitch services."
+        echo_warning "This might cause conflicts with OmniSwitch services."
         echo ""
         echo -n "Do you want to continue anyway? (y/n): "
         read -n 1 -r REPLY
@@ -324,11 +324,11 @@ check_services_health() {
 print_access_info() {
     printf "${BLUE}"
     printf "╔════════════════════════════════════════════════════════════════╗\n"
-    printf "║             Welcome to Juspay Hyperswitch!                     ║\n"
+    printf "║             Welcome to Juspay OmniSwitch!                     ║\n"
     printf "╚════════════════════════════════════════════════════════════════╝\n"
     printf "${NC}\n"
 
-    printf "${GREEN}${BOLD}Setup complete! You can now access Hyperswitch services at:${NC}\n"
+    printf "${GREEN}${BOLD}Setup complete! You can now access OmniSwitch services at:${NC}\n"
 
     if [ "$PROFILE" != "standalone" ]; then
         printf "  • ${GREEN}${BOLD}Control Center${NC}: ${BLUE}${BOLD}http://localhost:9000${NC}\n"
@@ -345,8 +345,8 @@ print_access_info() {
 
     # Default user credentials
     printf "            Use the following credentials:\n"
-    printf "            Email:    demo@hyperswitch.com\n"
-    printf "            Password: Hyperswitch@123\n"
+    printf "            Email:    demo@omniswitch.com\n"
+    printf "            Password: OmniSwitch@123\n"
 
     printf "\n"
 

@@ -3,8 +3,8 @@ api_url="http://localhost:8080"
 sdk_url="http://localhost:9050/HyperLoader.js"
 apple_pay_certificate_url=""
 dss_certificate_url=""
-logo_url=""
-favicon_url=""
+logo_url="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Ccircle%20cx=%2232%22%20cy=%2232%22%20r=%2229%22%20fill=%22%2318264f%22%20stroke=%22%23c9a96a%22%20stroke-width=%223%22/%3E%3Ctext%20x=%2232%22%20y=%2244%22%20font-family=%22Georgia,%20serif%22%20font-size=%2238%22%20font-weight=%22700%22%20fill=%22%23c9a96a%22%20text-anchor=%22middle%22%3E$%3C/text%3E%3C/svg%3E"
+favicon_url="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2064%2064%22%3E%3Ccircle%20cx=%2232%22%20cy=%2232%22%20r=%2229%22%20fill=%22%2318264f%22%20stroke=%22%23c9a96a%22%20stroke-width=%223%22/%3E%3Ctext%20x=%2232%22%20y=%2244%22%20font-family=%22Georgia,%20serif%22%20font-size=%2238%22%20font-weight=%22700%22%20fill=%22%23c9a96a%22%20text-anchor=%22middle%22%3E$%3C/text%3E%3C/svg%3E"
 recon_iframe_url=""
 hypersense_url=""
 mixpanel_token=""
@@ -14,7 +14,7 @@ clarity_base_url=""
 dynamo_simulation_template_url=""
 
 [default.features]
-branding=false
+branding=true
 mixpanel=false
 test_live_toggle=false
 is_live_mode=false

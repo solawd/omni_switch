@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
-EMAIL="demo@hyperswitch.com"
-PASSWORD="Hyperswitch@123"
+EMAIL="demo@omniswitch.com"
+PASSWORD="OmniSwitch@123"
 # Initialize merchant_id and profile_id to empty strings
 merchant_id=""
 profile_id=""
