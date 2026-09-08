@@ -257,6 +257,7 @@ loadtest/*.tmp/
 
 # Nix output
 result*
+docker-out/
 
 .idea/
 

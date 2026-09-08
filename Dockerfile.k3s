@@ -1,44 +1,9 @@
 # syntax=docker/dockerfile:1
-# Multi-arch (linux/amd64 + linux/arm64). k3s node is aarch64.
-# Phase 1: router only. release-fast (no LTO) so ARM CI can finish.
-# Diesel CLI is in the image so an initContainer can run v1 migrations.
+# Runtime only. rustc is compiled on the GitHub runner (so host swap works).
+# BuildKit's container cgroup cannot use that swap — compiling here OOMs the router crate.
+# CI copies target/release-fast/router to docker-out/router before this image is built.
 
-FROM rust:bookworm AS builder
-
-ARG CARGO_BUILD_PROFILE=release-fast
-
-# libprotobuf-dev ships google/protobuf/*.proto. grpc-api-types (g2h) only
-# passes `-I proto`, so wrap protoc to always include /usr/include.
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-        libpq-dev libssl-dev pkg-config clang \
-        protobuf-compiler libprotobuf-dev \
-    && test -f /usr/include/google/protobuf/empty.proto \
-    && printf '%s\n' '#!/bin/sh' 'exec /usr/bin/protoc -I/usr/include "$@"' > /usr/local/bin/protoc \
-    && chmod +x /usr/local/bin/protoc \
-    && rm -rf /var/lib/apt/lists/*
-
-WORKDIR /router
-
-# GitHub ARM runners are ~16Gi. router + 16 codegen-units OOMs rustc.
-ENV CARGO_INCREMENTAL=0 \
-    CARGO_NET_RETRY=10 \
-    RUSTUP_MAX_RETRIES=10 \
-    RUST_BACKTRACE=short \
-    PROTOC=/usr/local/bin/protoc \
-    PROTOC_INCLUDE=/usr/include \
-    CARGO_BUILD_JOBS=1 \
-    CARGO_PROFILE_RELEASE_FAST_CODEGEN_UNITS=1 \
-    CARGO_PROFILE_RELEASE_FAST_OPT_LEVEL=2 \
-    CARGO_PROFILE_RELEASE_FAST_DEBUG=0 \
-    RUSTFLAGS="-C debuginfo=0"
-
-COPY . .
-RUN cargo build --profile ${CARGO_BUILD_PROFILE} -p router --bin router \
-    && mkdir -p /router/out \
-    && cp "/router/target/${CARGO_BUILD_PROFILE}/router" /router/out/router
-
-FROM debian:bookworm-slim AS runtime
+FROM debian:bookworm-slim
 
 ARG CONFIG_DIR=/local/config
 ARG BIN_DIR=/local/bin
@@ -57,15 +22,15 @@ RUN apt-get update \
     && useradd --user-group --system --no-create-home --no-log-init app \
     && mkdir -p ${BIN_DIR} ${CONFIG_DIR} /local/migrations
 
-COPY --from=builder /router/out/router ${BIN_DIR}/router
-COPY --from=builder /router/config ${CONFIG_DIR}
+COPY docker-out/router ${BIN_DIR}/router
+COPY config ${CONFIG_DIR}
 COPY diesel.toml /local/diesel.toml
 COPY migrations /local/migrations
 
-RUN chown -R app:app /local
+RUN chmod 0755 ${BIN_DIR}/router && chown -R app:app /local
 
 ENV TZ=Etc/UTC \
-    CONFIG_DIR=${CONFIG_DIR} \
+    CONFIG_DIR=/local/config \
     RUST_MIN_STACK=6291456 \
     ROUTER__SERVER__HOST=0.0.0.0 \
     ROUTER__SERVER__WORKERS=2 \
